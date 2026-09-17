@@ -1,8 +1,7 @@
 import json
 import os
-import asyncio
-import urllib.request
-from aiohttp import web
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
@@ -76,32 +75,27 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Error: {e}")
 
-async def handle_health_check(request):
-    return web.Response(text="Luna Bot is online!")
+class HealthCheckHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Luna is online.")
 
-async def main():
-    # 1. Initialize Telegram Bot
+def run_health_check():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+    server.serve_forever()
+
+if __name__ == "__main__":
+    # Start web server thread for Render health check
+    threading.Thread(target=run_health_check, daemon=True).start()
+    
+    # Initialize and run Telegram bot polling directly
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("reset", reset))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
-
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling()
-    print("Luna Roleplay Engine Started Successfully...")
-
-    # 2. Start Web Server for Render Health Check
-    web_app = web.Application()
-    web_app.router.add_get("/", handle_health_check)
-    runner = web.AppRunner(web_app)
-    await runner.setup()
-    port = int(os.environ.get("PORT", 8080))
-    site = web.TCPSite(runner, "0.0.0.0", port)
-    await site.start()
-
-    # 3. Keep running indefinitely
-    await asyncio.Event().wait()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    
+    print("Luna Roleplay Engine Starting...")
+    app.run_polling(drop_pending_updates=True)
