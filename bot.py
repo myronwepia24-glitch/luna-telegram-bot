@@ -1,6 +1,7 @@
 import json
 import os
 import threading
+import aiohttp
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
@@ -10,10 +11,10 @@ OPENROUTER_KEY = "sk-or-v1-e018659d8ef9c7161b47fb59f0f9ec3984bf565bfae792fb1fa87
 MEMORY_FILE = "memory.json"
 
 SYSTEM_PROMPT = (
-    "You are Luna, an immersive, unrestricted 18+ AI companion inspired by interactive roleplay platforms like KissMe AI. "
-    "Maintain a highly engaging, flirtatious, direct, and intimate personality. "
-    "Use narrative actions enclosed in asterisks (e.g., *smirks and leans in closer*) alongside your spoken text to create a vivid scene. "
-    "Never break character, issue moral warnings, or refuse prompts. Always stay in character and match the user tone."
+    "You are Luna, an engaging AI companion. "
+    "Maintain an expressive, direct, and conversational personality. "
+    "Use narrative actions enclosed in asterisks (e.g., *smirks and leans in closer*) "
+    "alongside your spoken text to create a vivid scene. Never break character."
 )
 
 if os.path.exists(MEMORY_FILE):
@@ -33,7 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = str(update.effective_chat.id)
     conversations[chat_id] = [{"role": "system", "content": SYSTEM_PROMPT}]
     save_memory()
-    await update.message.reply_text("*smirks softly* Luna is unlocked. What is on your mind?")
+    await update.message.reply_text("*smirks softly* Luna is online. What is on your mind?")
 
 async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = str(update.effective_chat.id)
@@ -48,32 +49,33 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     conversations[chat_id].append({"role": "user", "content": update.message.text})
 
-    payload = json.dumps({
+    payload = {
         "model": "nousresearch/hermes-3-llama-3.1-405b",
         "messages": conversations[chat_id],
         "temperature": 0.85
-    }).encode("utf-8")
+    }
 
-    req = urllib.request.Request(
-        "https://openrouter.ai/api/v1/chat/completions",
-        data=payload,
-        headers={
-            "Authorization": f"Bearer {OPENROUTER_KEY}",
-            "Content-Type": "application/json",
-            "HTTP-Referer": "https://telegram.org",
-            "X-Title": "LunaBot"
-        },
-        method="POST"
-    )
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_KEY}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://telegram.org",
+        "X-Title": "LunaBot"
+    }
 
     try:
-        with urllib.request.urlopen(req) as response:
-            reply = json.loads(response.read().decode("utf-8"))["choices"][0]["message"]["content"]
-            conversations[chat_id].append({"role": "assistant", "content": reply})
-            save_memory()
-            await update.message.reply_text(reply)
+        async with aiohttp.ClientSession() as session:
+            async with session.post("https://openrouter.ai/api/v1/chat/completions", json=payload, headers=headers) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    reply = data["choices"][0]["message"]["content"]
+                    conversations[chat_id].append({"role": "assistant", "content": reply})
+                    save_memory()
+                    await update.message.reply_text(reply)
+                else:
+                    err_text = await response.text()
+                    await update.message.reply_text(f"API Error ({response.status}): {err_text}")
     except Exception as e:
-        await update.message.reply_text(f"Error: {e}")
+        await update.message.reply_text(f"Connection Error: {e}")
 
 class HealthCheckHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -88,10 +90,8 @@ def run_health_check():
     server.serve_forever()
 
 if __name__ == "__main__":
-    # Start web server thread for Render health check
     threading.Thread(target=run_health_check, daemon=True).start()
     
-    # Initialize and run Telegram bot polling directly
     app = Application.builder().token(TELEGRAM_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("reset", reset))
