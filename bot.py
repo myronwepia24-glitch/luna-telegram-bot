@@ -2,6 +2,7 @@ import json
 import os
 import threading
 import urllib.parse
+import re
 import aiohttp
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -199,7 +200,7 @@ async def web_app_data_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                 parse_mode="Markdown"
             )
 
-# --- CHAT ENGINE ---
+# --- CHAT ENGINE WITH DYNAMIC MEDIA ATTACHMENTS ---
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = str(update.effective_chat.id)
     session = get_user_session(chat_id)
@@ -209,7 +210,8 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         session["history"][active_char] = [{"role": "system", "content": CHARACTERS[active_char]["prompt"]}]
         
     history = session["history"][active_char]
-    history.append({"role": "user", "content": update.message.text})
+    user_text = update.message.text
+    history.append({"role": "user", "content": user_text})
 
     session["stats"][active_char]["intimacy"] += 2
     save_memory()
@@ -240,6 +242,34 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     full_response = f"{status_header}{reply}"
                     
                     await update.message.reply_text(full_response, parse_mode="Markdown")
+
+                    # --- CONTEXT-AWARE AUTOMATIC MEDIA GENERATION ---
+                    char_name = CHARACTERS[active_char]["name"]
+                    location = session["stats"][active_char]["location"]
+
+                    # Check if user or AI explicitly asks for a picture/video or mentions visual descriptions
+                    combined_text = (user_text + " " + reply).lower()
+
+                    if any(kw in combined_text for kw in ["send video", "watch video", "video clip", "movie"]):
+                        clean_prompt = re.sub(r'[*_`]', '', reply)[:80]
+                        prompt_query = f"{char_name}, {location}, {clean_prompt}"
+                        encoded_prompt = urllib.parse.quote(prompt_query)
+                        video_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=512&height=512&model=video"
+                        try:
+                            await update.message.reply_video(video=video_url, caption=f"🎥 *Clip from {char_name}*")
+                        except Exception:
+                            pass
+
+                    elif any(kw in combined_text for kw in ["picture", "photo", "look at me", "wearing", "selfie", "outfit", "show me"]):
+                        clean_prompt = re.sub(r'[*_`]', '', reply)[:80]
+                        prompt_query = f"realistic portrait of {char_name}, {location}, {clean_prompt}"
+                        encoded_prompt = urllib.parse.quote(prompt_query)
+                        image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=768&height=1024&nologo=true"
+                        try:
+                            await update.message.reply_photo(photo=image_url, caption=f"📸 *Photo from {char_name}*")
+                        except Exception:
+                            pass
+
                 else:
                     err_text = await response.text()
                     await update.message.reply_text(f"API Error ({response.status}): {err_text}")
