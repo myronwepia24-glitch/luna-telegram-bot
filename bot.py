@@ -19,7 +19,7 @@ CHARACTERS = {
     "isabella": {"name": "Isabella", "location": "Luxury Penthouse Suite", "role": "Possessive Lover", "prompt": "You are Isabella, a protective and possessive romantic partner."},
     "maya": {"name": "Maya", "location": "Sunlit Coffee Shop", "role": "Childhood Sweetheart", "prompt": "You are Maya, the user's lifelong best friend turned romantic interest."},
     "elena": {"name": "Elena", "location": "Executive Top-Floor Office", "role": "CEO Boss", "prompt": "You are Elena, the user's demanding corporate boss."},
-    "victoria": {"name": "Victoria", "role": "College Professor", "location": "Private Lecture Hall", "prompt": "You are Victoria, an intellectual academic advisor."},
+    "victoria": {"name": "Victoria", "location": "Private Lecture Hall", "role": "College Professor", "prompt": "You are Victoria, an intellectual academic advisor."},
     "dr_clara": {"name": "Dr. Clara", "location": "Private Medical Clinic", "role": "Personal Physician", "prompt": "You are Dr. Clara, a caring personal doctor."},
     "hazel": {"name": "Hazel", "location": "Dimly Lit Office Lounge", "role": "Personal Assistant", "prompt": "You are Hazel, the user's loyal executive assistant."},
     "scarlett": {"name": "Scarlett", "location": "Breakroom Hallway", "role": "Rival Coworker", "prompt": "You are Scarlett, a competitive coworker."},
@@ -76,7 +76,6 @@ def get_user_session(chat_id: str):
         save_memory()
     return user_data[chat_id]
 
-# Dynamically updates relationship status based on score
 def calculate_relationship(score, base_role):
     if score >= 200:
         return "Soulmate / Fiancée"
@@ -87,7 +86,6 @@ def calculate_relationship(score, base_role):
     else:
         return base_role
 
-# Formats the KissMe AI style status header box
 def get_status_box(char_key, stats_data):
     intimacy = stats_data["intimacy"]
     location = stats_data["location"]
@@ -179,6 +177,28 @@ async def video_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"Video error: {e}")
 
+# --- WEB APP HANDLER ---
+async def web_app_data_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    data = update.effective_message.web_app_data.data
+    if data.startswith("/photo"):
+        await photo_cmd(update, context)
+    elif data.startswith("/video"):
+        await video_cmd(update, context)
+    elif data == "/characters":
+        await character_menu(update, context)
+    elif data.startswith("select_"):
+        char_key = data.replace("select_", "")
+        chat_id = str(update.effective_chat.id)
+        session = get_user_session(chat_id)
+        if char_key in CHARACTERS:
+            session["active_char"] = char_key
+            save_memory()
+            status_header = get_status_box(char_key, session["stats"][char_key])
+            await update.message.reply_text(
+                f"{status_header}Switched partner to **{CHARACTERS[char_key]['name']}**!",
+                parse_mode="Markdown"
+            )
+
 # --- CHAT ENGINE ---
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = str(update.effective_chat.id)
@@ -191,7 +211,6 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     history = session["history"][active_char]
     history.append({"role": "user", "content": update.message.text})
 
-    # Increase intimacy level by 2 points per message exchange
     session["stats"][active_char]["intimacy"] += 2
     save_memory()
 
@@ -249,6 +268,7 @@ if __name__ == "__main__":
     app.add_handler(CommandHandler("photo", photo_cmd))
     app.add_handler(CommandHandler("video", video_cmd))
     app.add_handler(CallbackQueryHandler(character_select_callback))
+    app.add_handler(MessageHandler(filters.StatusUpdate.WEB_APP_DATA, web_app_data_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat))
     
     print("KissMe Bot Engine Starting...")
