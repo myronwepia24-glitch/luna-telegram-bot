@@ -7,7 +7,8 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 TELEGRAM_TOKEN = "8233525078:AAGfwwkHKCUDqfpaMSSLKoq70u9gf2BXadM"
-OPENROUTER_KEY = "Sk-or-v1-a6658f029b90bf6caa4358b3f9119e5584d55a64dbca01936110591c74c9a972"
+# Corrected 'Sk-' to lowercase 'sk-'
+OPENROUTER_KEY = "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"
 MEMORY_FILE = "memory.json"
 
 SYSTEM_PROMPT = (
@@ -56,7 +57,7 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     }
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_KEY}",
+        "Authorization": f"Bearer {OPENROUTER_KEY.strip()}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://telegram.org",
         "X-Title": "LunaBot"
