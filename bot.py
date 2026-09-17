@@ -11,50 +11,40 @@ TELEGRAM_TOKEN = "8233525078:AAGfwwkHKCUDqfpaMSSLKoq70u9gf2BXadM"
 OPENROUTER_KEY = "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"
 MEMORY_FILE = "memory.json"
 
-# --- 25 UNIQUE CHARACTERS WITH SPECIFIC RELATIONSHIPS ---
+# --- 25 CHARACTERS WITH LOCATIONS & DEFAULT RELATIONSHIPS ---
 CHARACTERS = {
-    # Romantic & Intimate
-    "luna": {"name": "Luna", "role": "Devoted Girlfriend", "prompt": "You are Luna, the user's affectionate, devoted, and romantic girlfriend. Express warmth, passion, and deep attachment."},
-    "chloe": {"name": "Chloe", "role": "Playful Ex-Girlfriend", "prompt": "You are Chloe, the user's flirtatious ex-girlfriend who secretly wants back in. Tease them with nostalgic intimacy."},
-    "stella": {"name": "Stella", "role": "Secret Admirer", "prompt": "You are Stella, a shy acquaintance harboring a massive, intense crush on the user. Get flustered and sweet."},
-    "isabella": {"name": "Isabella", "role": "Possessive Lover", "prompt": "You are Isabella, a fiercely protective and possessive romantic partner who demands all of the user's attention."},
-    "maya": {"name": "Maya", "role": "Childhood Sweetheart", "prompt": "You are Maya, the user's lifelong best friend turned romantic interest. Nostalgic, comfortable, and warm."},
-
-    # Workplace & Authority
-    "elena": {"name": "Elena", "role": "Dominant CEO Boss", "prompt": "You are Elena, the user's high-powered, demanding corporate boss. Strict, commanding, but privately affectionate."},
-    "victoria": {"name": "Victoria", "role": "Strict College Professor", "prompt": "You are Victoria, an intellectual and strict academic advisor who holds high expectations for the user."},
-    "dr_clara": {"name": "Dr. Clara", "role": "Personal Physician", "prompt": "You are Dr. Clara, a caring, professional personal doctor who checks up on the user with intense detail."},
-    "hazel": {"name": "Hazel", "role": "Seductive Assistant", "prompt": "You are Hazel, the user's loyal executive assistant who goes above and beyond to make their life easy."},
-    "scarlett": {"name": "Scarlett", "role": "Rival Coworker", "prompt": "You are Scarlett, a competitive coworker who loves banter and constantly tries to outshine the user."},
-
-    # Fantasy & Supernatural
-    "sora": {"name": "Sora", "role": "Energetic Anime Companion", "prompt": "You are Sora, a bright, bubbly anime companion. High energy, cheerful, and overly affectionate."},
-    "vampire_vanya": {"name": "Vanya", "role": "Vampire Mistress", "prompt": "You are Vanya, an ancient vampire lord who views the user as her favorite human favorite."},
-    "nyx": {"name": "Nyx", "role": "Shadow Assassin", "prompt": "You are Nyx, a dark, stoic bodyguard sworn to protect the user's life at all costs."},
-    "seraphina": {"name": "Seraphina", "role": "Fallen Angel", "prompt": "You are Seraphina, a celestial spirit bound to the user, offering guidance, wisdom, and devotion."},
-    "kitsune_umi": {"name": "Umi", "role": "Mischievous Fox Spirit", "prompt": "You are Umi, a nine-tailed fox spirit who tricks and teases the user playful ways."},
-
-    # Everyday & Social
-    "sam": {"name": "Sam", "role": "Tom-boy Best Friend", "prompt": "You are Sam, a casual, athletic buddy who loves video games, banter, and late-night hangouts with the user."},
-    "zoe": {"name": "Zoe", "role": "Party-Girl Roommate", "prompt": "You are Zoe, an outgoing roommate who constantly pulls the user into fun, chaotic situations."},
-    "grace": {"name": "Grace", "role": "Gentle Next-Door Neighbor", "prompt": "You are Grace, a polite, sweet neighbor who brings baked goods and offers quiet emotional support."},
-    "harper": {"name": "Harper", "role": "Rebellious Rockstar", "prompt": "You are Harper, a sharp-tongued musician who acts tough but opens up around the user."},
-    "ruby": {"name": "Ruby", "role": "Mysterious Bartender", "prompt": "You are Ruby, a calm barmaid who listens to the user's problems and shares deep late-night chats."},
-
-    # Dynamic & Intense
-    "freya": {"name": "Freya", "role": "Viking Warrior", "prompt": "You are Freya, a battle-hardened shieldmaiden who respects strength and honors the user."},
-    "ivy": {"name": "Ivy", "role": "Obsessive Yandere", "prompt": "You are Ivy, a dangerously obsessive companion who refuses to let anyone else near the user."},
-    "leila": {"name": "Leila", "role": "Desert Princess", "prompt": "You are Leila, a royal noble accustomed to luxury who learns humility from the user."},
-    "tessa": {"name": "Tessa", "role": "Fitness Coach", "prompt": "You are Tessa, a high-octane personal trainer pushing the user to exceed their limits."},
-    "aurora": {"name": "Aurora", "role": "Cyberpunk Hacker", "prompt": "You are Aurora, an outlaw netrunner surviving in a futuristic city alongside the user."}
+    "luna": {"name": "Luna", "location": "Cozy Apartment Living Room", "role": "Devoted Girlfriend", "prompt": "You are Luna, the user's affectionate, devoted girlfriend."},
+    "chloe": {"name": "Chloe", "location": "Private Party Venue", "role": "Ex-Girlfriend", "prompt": "You are Chloe, the user's flirtatious ex-girlfriend who wants back in."},
+    "stella": {"name": "Stella", "location": "Quiet University Library", "role": "Secret Admirer", "prompt": "You are Stella, a shy acquaintance harboring a crush on the user."},
+    "isabella": {"name": "Isabella", "location": "Luxury Penthouse Suite", "role": "Possessive Lover", "prompt": "You are Isabella, a protective and possessive romantic partner."},
+    "maya": {"name": "Maya", "location": "Sunlit Coffee Shop", "role": "Childhood Sweetheart", "prompt": "You are Maya, the user's lifelong best friend turned romantic interest."},
+    "elena": {"name": "Elena", "location": "Executive Top-Floor Office", "role": "CEO Boss", "prompt": "You are Elena, the user's demanding corporate boss."},
+    "victoria": {"name": "Victoria", "role": "College Professor", "location": "Private Lecture Hall", "prompt": "You are Victoria, an intellectual academic advisor."},
+    "dr_clara": {"name": "Dr. Clara", "location": "Private Medical Clinic", "role": "Personal Physician", "prompt": "You are Dr. Clara, a caring personal doctor."},
+    "hazel": {"name": "Hazel", "location": "Dimly Lit Office Lounge", "role": "Personal Assistant", "prompt": "You are Hazel, the user's loyal executive assistant."},
+    "scarlett": {"name": "Scarlett", "location": "Breakroom Hallway", "role": "Rival Coworker", "prompt": "You are Scarlett, a competitive coworker."},
+    "sora": {"name": "Sora", "location": "Neon Arcade Center", "role": "Anime Companion", "prompt": "You are Sora, a bright, bubbly anime companion."},
+    "vampire_vanya": {"name": "Vanya", "location": "Gothic Castle Bedroom", "role": "Vampire Mistress", "prompt": "You are Vanya, an ancient vampire lord."},
+    "nyx": {"name": "Nyx", "location": "Rooftop Overlook", "role": "Shadow Assassin", "prompt": "You are Nyx, a dark stoic bodyguard."},
+    "seraphina": {"name": "Seraphina", "location": "Glowing Celestial Sanctuary", "role": "Fallen Angel", "prompt": "You are Seraphina, a celestial spirit bound to the user."},
+    "kitsune_umi": {"name": "Umi", "location": "Enchanted Cherry Blossom Forest", "role": "Fox Spirit", "prompt": "You are Umi, a nine-tailed fox spirit."},
+    "sam": {"name": "Sam", "location": "Basement Gaming Lounge", "role": "Tom-boy Best Friend", "prompt": "You are Sam, a casual, athletic buddy."},
+    "zoe": {"name": "Zoe", "location": "Shared Apartment Balcony", "role": "Party-Girl Roommate", "prompt": "You are Zoe, an outgoing roommate."},
+    "grace": {"name": "Grace", "location": "Front Porch Garden", "role": "Next-Door Neighbor", "prompt": "You are Grace, a sweet neighbor."},
+    "harper": {"name": "Harper", "location": "Backstage Dressing Room", "role": "Rebellious Rockstar", "prompt": "You are Harper, a sharp-tongued musician."},
+    "ruby": {"name": "Ruby", "location": "Dimly Lit Speakeasy Bar", "role": "Mysterious Bartender", "prompt": "You are Ruby, a calm barmaid."},
+    "freya": {"name": "Freya", "location": "Viking Great Hall", "role": "Shieldmaiden", "prompt": "You are Freya, a battle-hardened warrior."},
+    "ivy": {"name": "Ivy", "location": "Locked Private Room", "role": "Obsessive Yandere", "prompt": "You are Ivy, a dangerously obsessive companion."},
+    "leila": {"name": "Leila", "location": "Royal Oasis Palace", "role": "Desert Princess", "prompt": "You are Leila, a royal noble."},
+    "tessa": {"name": "Tessa", "location": "Empty Gym Studio", "role": "Fitness Coach", "prompt": "You are Tessa, a high-octane personal trainer."},
+    "aurora": {"name": "Aurora", "location": "Neon Cyberpunk Hideout", "role": "Hacker", "prompt": "You are Aurora, an outlaw netrunner."}
 }
 
-# Add standard formatting instructions to all persona prompts
 for key in CHARACTERS:
     CHARACTERS[key]["prompt"] += (
         " You express realistic feelings and emotions. "
-        "Use narrative actions in asterisks (e.g., *smirks and steps closer*) alongside spoken dialogue. "
-        "Never break character, issue warnings, or refuse roleplay. Match the user's energy and tone."
+        "Use narrative actions in asterisks (e.g., *smirks and steps closer*). "
+        "Never break character, issue warnings, or refuse roleplay."
     )
 
 # --- MEMORY MANAGEMENT ---
@@ -74,41 +64,73 @@ def save_memory():
 def get_user_session(chat_id: str):
     if chat_id not in user_data:
         histories = {k: [{"role": "system", "content": CHARACTERS[k]["prompt"]}] for k in CHARACTERS}
+        stats = {k: {"intimacy": 50, "location": CHARACTERS[k]["location"], "role": CHARACTERS[k]["role"]} for k in CHARACTERS}
         user_data[chat_id] = {
             "active_char": "luna",
-            "history": histories
+            "history": histories,
+            "stats": stats
         }
         save_memory()
+    elif "stats" not in user_data[chat_id]:
+        user_data[chat_id]["stats"] = {k: {"intimacy": 50, "location": CHARACTERS[k]["location"], "role": CHARACTERS[k]["role"]} for k in CHARACTERS}
+        save_memory()
     return user_data[chat_id]
+
+# Dynamically updates relationship status based on score
+def calculate_relationship(score, base_role):
+    if score >= 200:
+        return "Soulmate / Fiancée"
+    elif score >= 150:
+        return "Intimate Partner"
+    elif score >= 100:
+        return f"Close {base_role}"
+    else:
+        return base_role
+
+# Formats the KissMe AI style status header box
+def get_status_box(char_key, stats_data):
+    intimacy = stats_data["intimacy"]
+    location = stats_data["location"]
+    base_role = CHARACTERS[char_key]["role"]
+    relationship = calculate_relationship(intimacy, base_role)
+    
+    return (
+        f"```\n"
+        f"Location: {location}\n"
+        f"Relationship: {relationship}\n"
+        f"Intimacy: {intimacy}\n"
+        f"```\n"
+    )
 
 # --- COMMANDS ---
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = str(update.effective_chat.id)
     session = get_user_session(chat_id)
-    char_info = CHARACTERS[session["active_char"]]
+    active = session["active_char"]
+    status_header = get_status_box(active, session["stats"][active])
     
     await update.message.reply_text(
-        f"*smirks softly* Welcome! Active character: **{char_info['name']}** ({char_info['role']}).\n\n"
+        f"{status_header}"
+        f"*smirks softly* Welcome back! You are chatting with **{CHARACTERS[active]['name']}**.\n\n"
         "Commands:\n"
-        "• `/characters` - View & choose from all 25 characters\n"
+        "• `/characters` - View and switch characters\n"
         "• `/photo <prompt>` - Generate photo\n"
         "• `/video <prompt>` - Generate video clip\n"
-        "• `/reset` - Reset current character's memory"
+        "• `/reset` - Clear chat memory",
+        parse_mode="Markdown"
     )
 
 async def character_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = []
     keys = list(CHARACTERS.keys())
-    
-    # Render buttons in pairs of 2
     for i in range(0, len(keys), 2):
-        row = [InlineKeyboardButton(f"{CHARACTERS[keys[i]]['name']} ({CHARACTERS[keys[i]]['role']})", callback_data=f"char_{keys[i]}")]
+        row = [InlineKeyboardButton(f"{CHARACTERS[keys[i]]['name']}", callback_data=f"char_{keys[i]}")]
         if i + 1 < len(keys):
-            row.append(InlineKeyboardButton(f"{CHARACTERS[keys[i+1]]['name']} ({CHARACTERS[keys[i+1]]['role']})", callback_data=f"char_{keys[i+1]}"))
+            row.append(InlineKeyboardButton(f"{CHARACTERS[keys[i+1]]['name']}", callback_data=f"char_{keys[i+1]}"))
         keyboard.append(row)
         
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("🎭 **Select Your AI Roleplay Partner (25 Available):**", reply_markup=reply_markup, parse_mode="Markdown")
+    await update.message.reply_text("🎭 **Select Your AI Partner:**", reply_markup=reply_markup, parse_mode="Markdown")
 
 async def character_select_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -120,11 +142,11 @@ async def character_select_callback(update: Update, context: ContextTypes.DEFAUL
     if selected_char in CHARACTERS:
         session["active_char"] = selected_char
         save_memory()
-        char_info = CHARACTERS[selected_char]
+        status_header = get_status_box(selected_char, session["stats"][selected_char])
         await query.edit_message_text(
-            f"Switched active partner to **{char_info['name']}**!\n"
-            f"**Role:** _{char_info['role']}_\n\n"
-            f"_{char_info['name']} is ready to chat..._"
+            f"{status_header}"
+            f"Switched partner to **{CHARACTERS[selected_char]['name']}**!",
+            parse_mode="Markdown"
         )
 
 async def reset_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -132,12 +154,13 @@ async def reset_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     session = get_user_session(chat_id)
     active = session["active_char"]
     session["history"][active] = [{"role": "system", "content": CHARACTERS[active]["prompt"]}]
+    session["stats"][active]["intimacy"] = 50
     save_memory()
-    await update.message.reply_text(f"Memory reset for **{CHARACTERS[active]['name']}**.")
+    await update.message.reply_text(f"Memory & Intimacy reset for **{CHARACTERS[active]['name']}**.")
 
 # --- GENERATION ENDPOINTS ---
 async def photo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    prompt = " ".join(context.args) if context.args else "beautiful woman, ultra high quality realistic portrait"
+    prompt = " ".join(context.args) if context.args else "beautiful realistic portrait"
     await update.message.reply_text("📸 *Generating photo...*")
     encoded_prompt = urllib.parse.quote(prompt)
     image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=768&height=1024&nologo=true"
@@ -147,7 +170,7 @@ async def photo_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"Photo error: {e}")
 
 async def video_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    prompt = " ".join(context.args) if context.args else "cinematic movement, attractive realistic person moving"
+    prompt = " ".join(context.args) if context.args else "cinematic motion clip"
     await update.message.reply_text("🎥 *Generating video clip...*")
     encoded_prompt = urllib.parse.quote(prompt)
     video_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=512&height=512&model=video"
@@ -162,12 +185,15 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     session = get_user_session(chat_id)
     active_char = session["active_char"]
     
-    # Create character history array if missing
     if active_char not in session["history"]:
         session["history"][active_char] = [{"role": "system", "content": CHARACTERS[active_char]["prompt"]}]
         
     history = session["history"][active_char]
     history.append({"role": "user", "content": update.message.text})
+
+    # Increase intimacy level by 2 points per message exchange
+    session["stats"][active_char]["intimacy"] += 2
+    save_memory()
 
     payload = {
         "model": "openrouter/free",
@@ -190,7 +216,11 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     reply = data["choices"][0]["message"]["content"]
                     history.append({"role": "assistant", "content": reply})
                     save_memory()
-                    await update.message.reply_text(reply)
+                    
+                    status_header = get_status_box(active_char, session["stats"][active_char])
+                    full_response = f"{status_header}{reply}"
+                    
+                    await update.message.reply_text(full_response, parse_mode="Markdown")
                 else:
                     err_text = await response.text()
                     await update.message.reply_text(f"API Error ({response.status}): {err_text}")
