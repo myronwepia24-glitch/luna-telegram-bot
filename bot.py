@@ -50,7 +50,7 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conversations[chat_id].append({"role": "user", "content": update.message.text})
 
     payload = {
-        "model": "meta-llama/llama-3.1-8b-instruct:free",
+        "model": "openrouter/free",
         "messages": conversations[chat_id],
         "temperature": 0.85
     }
