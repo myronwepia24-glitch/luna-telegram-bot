@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KissMe AI Hub</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 16px;
+    }
+    h2, h3 { margin-top: 0; color: #fff; }
+    .status-card {
+      background: #181824;
+      border-left: 4px solid #a855f7;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .status-card span {
+      color: #c084fc;
+      font-weight: bold;
+    }
+    .card {
+      background: #181818;
+      border: 1px solid #282828;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .char-btn {
+      background: #22222a;
+      color: #fff;
+      border: 1px solid #333344;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .char-btn span {
+      display: block;
+      color: #ec4899;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    .action-btn {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎭 KissMe AI Companion Hub</h2>
+
+  <!-- Status Card Header -->
+  <div class="status-card">
+    Location: <span>Private Party Venue</span><br>
+    Relationship: <span>Fiancée / Partner</span><br>
+    Intimacy: <span>148+</span>
+  </div>
+
+  <!-- Media Actions -->
+  <div class="card">
+    <h3>Media Studio</h3>
+    <div class="btn-group">
+      <button class="action-btn" onclick="sendPrompt('/photo beautiful realistic portrait')">📸 Photo</button>
+      <button class="action-btn" onclick="sendPrompt('/video cinematic motion clip')">🎥 Video</button>
+    </div>
+  </div>
+
+  <!-- 25 Character Selection Grid -->
+  <div class="card">
+    <h3>Select Character (25 Options)</h3>
+    <div class="grid">
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Luna</strong><span>Devoted GF</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Chloe</strong><span>Ex-Girlfriend</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Stella</strong><span>Secret Admirer</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Isabella</strong><span>Possessive Lover</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Maya</strong><span>Childhood Sweetheart</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Elena</strong><span>CEO Boss</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Victoria</strong><span>Professor</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Dr. Clara</strong><span>Personal Physician</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Hazel</strong><span>Assistant</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Scarlett</strong><span>Rival Coworker</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Sora</strong><span>Anime Companion</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Vanya</strong><span>Vampire Mistress</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Nyx</strong><span>Shadow Assassin</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Seraphina</strong><span>Fallen Angel</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Umi</strong><span>Fox Spirit</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Sam</strong><span>Tom-boy Buddy</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Zoe</strong><span>Roommate</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Grace</strong><span>Neighbor</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Harper</strong><span>Rockstar</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Ruby</strong><span>Bartender</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Freya</strong><span>Shieldmaiden</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Ivy</strong><span>Obsessive Yandere</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Leila</strong><span>Desert Princess</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Tessa</strong><span>Fitness Coach</span></button>
+      <button class="char-btn" onclick="sendPrompt('/characters')"><strong>Aurora</strong><span>Cyberpunk Hacker</span></button>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    function sendPrompt(text) {
+      tg.sendData(text);
+      tg.close();
+    }
+  </script>
+</body>
+</html>
